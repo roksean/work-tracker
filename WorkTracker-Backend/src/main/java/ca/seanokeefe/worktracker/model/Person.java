@@ -1,13 +1,22 @@
 package ca.seanokeefe.worktracker.model;
 
-public class User {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
+public class Person {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
-    public User() {}
+    public Person() {}
 
-    public User(String name) {
+    public Person(String name) {
         this.name = name;
     }
 
