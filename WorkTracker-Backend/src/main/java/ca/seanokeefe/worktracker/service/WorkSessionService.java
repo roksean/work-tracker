@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import ca.seanokeefe.worktracker.exception.WorkSessionNotFoundException;
 import ca.seanokeefe.worktracker.model.Person;
 import ca.seanokeefe.worktracker.model.WorkSession;
 import ca.seanokeefe.worktracker.repository.WorkSessionRepository;
@@ -50,8 +51,21 @@ public class WorkSessionService {
         return workSessionRepository.findById(id);
     }
 
-    /** Delete a session by id. */
-    public void deleteById(Long id) {
+    /** Get a single session by id, or throw WorkSessionNotFoundException if not found. */
+    public WorkSession findByIdOrThrow(Long id) {
+        Optional<WorkSession> session = workSessionRepository.findById(id);
+        if (session.isPresent()) {
+            return session.get();
+        } else {
+            throw new WorkSessionNotFoundException("Work session with id " + id + " not found.");
+        }
+    }
+
+    /** Delete a session by id. Throws WorkSessionNotFoundException if not found. */
+    public void deleteByIdOrThrow(Long id) {
+        if (!workSessionRepository.existsById(id)) {
+            throw new WorkSessionNotFoundException("Work session with id " + id + " not found.");
+        }
         workSessionRepository.deleteById(id);
     }
 }
