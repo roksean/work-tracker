@@ -23,8 +23,8 @@ public class PersonRepositoryTests {
 
     @Test
     public void testPersistAndLoadPerson() {
-        // create person
-        Person person = new Person("John Doe");
+        // create person (name, email, password)
+        Person person = new Person("John Doe", "john@example.com", "password123");
 
         // save person
         personRepository.save(person);
@@ -36,8 +36,9 @@ public class PersonRepositoryTests {
 
         // assert correct response
         assertEquals(person.getName(), personFromDb.getName());
+        assertEquals(person.getEmail(), personFromDb.getEmail());
+        assertEquals(person.getPassword(), personFromDb.getPassword());
         assertEquals(person.getId(), personFromDb.getId());
-
     }
 
 }

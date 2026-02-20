@@ -34,12 +34,14 @@ public class WorkSessionController {
     }
 
     @GetMapping
-    public List<WorkSessionResponseDTO> getAll(@RequestParam(required = false) String subject) {
+    public List<WorkSessionResponseDTO> getAll(
+            @RequestParam Long personId,
+            @RequestParam(required = false) String subject) {
         List<WorkSession> sessions;
         if (subject != null && !subject.isBlank()) {
-            sessions = workSessionService.findBySubject(subject);
+            sessions = workSessionService.findBySubject(personId, subject);
         } else {
-            sessions = workSessionService.findAll();
+            sessions = workSessionService.findAllByPersonId(personId);
         }
         List<WorkSessionResponseDTO> result = new ArrayList<>();
         for (WorkSession session : sessions) {
@@ -56,7 +58,7 @@ public class WorkSessionController {
 
     @PostMapping
     public ResponseEntity<WorkSessionResponseDTO> create(@RequestBody WorkSessionRequestDTO request) {
-        Person person = personService.getPersonOrThrow();
+        Person person = personService.findByIdOrThrow(request.getPersonId());
         WorkSession session = request.toWorkSession(person);
         WorkSession saved = workSessionService.save(session);
         return ResponseEntity.status(HttpStatus.CREATED).body(new WorkSessionResponseDTO(saved));

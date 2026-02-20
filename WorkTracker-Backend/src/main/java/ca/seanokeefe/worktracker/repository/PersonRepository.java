@@ -8,6 +8,5 @@ import ca.seanokeefe.worktracker.model.Person;
 
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
-    /** Returns the single person for MVP (first by id). */
-    Optional<Person> findFirstByOrderByIdAsc();
+    Optional<Person> findByEmail(String email);
 }

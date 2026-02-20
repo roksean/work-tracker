@@ -26,24 +26,16 @@ public class WorkSessionService {
         return workSessionRepository.save(workSession);
     }
 
-    /** Get all sessions for the single user, ordered by start time (newest first). */
-    public List<WorkSession> findAll() {
-        Optional<Person> person = personService.getPerson();
-        if (person.isPresent()) {
-            return workSessionRepository.findByPersonOrderByStartTimeDesc(person.get());
-        } else {
-            return List.of();
-        }
+    /** Get all sessions for the given person, ordered by start time (newest first). */
+    public List<WorkSession> findAllByPersonId(Long personId) {
+        Person person = personService.findByIdOrThrow(personId);
+        return workSessionRepository.findByPersonOrderByStartTimeDesc(person);
     }
 
-    /** Get sessions filtered by subject for the single user, ordered by start time (newest first). */
-    public List<WorkSession> findBySubject(String subject) {
-        Optional<Person> person = personService.getPerson();
-        if (person.isPresent()) {
-            return workSessionRepository.findByPersonAndSubjectOrderByStartTimeDesc(person.get(), subject);
-        } else {
-            return List.of();
-        }
+    /** Get sessions filtered by subject for the given person, ordered by start time (newest first). */
+    public List<WorkSession> findBySubject(Long personId, String subject) {
+        Person person = personService.findByIdOrThrow(personId);
+        return workSessionRepository.findByPersonAndSubjectOrderByStartTimeDesc(person, subject);
     }
 
     /** Get a single session by id. */

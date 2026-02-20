@@ -1,8 +1,12 @@
 package ca.seanokeefe.worktracker.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,20 +29,35 @@ public class PersonController {
     }
 
     @GetMapping
-    public PersonResponseDTO getPerson() {
-        Person person = personService.getPersonOrThrow();
+    public List<PersonResponseDTO> getAll() {
+        List<Person> people = personService.findAll();
+        List<PersonResponseDTO> result = new ArrayList<>();
+        for (Person person : people) {
+            result.add(new PersonResponseDTO(person));
+        }
+        return result;
+    }
+
+    @GetMapping("/{id}")
+    public PersonResponseDTO getById(@PathVariable Long id) {
+        Person person = personService.findByIdOrThrow(id);
         return new PersonResponseDTO(person);
     }
 
     @PostMapping
-    public ResponseEntity<PersonResponseDTO> createPerson(@RequestBody PersonRequestDTO request) {
-        Person person = personService.getOrCreateDefault(request.getName());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new PersonResponseDTO(person));
+    public ResponseEntity<PersonResponseDTO> create(@RequestBody PersonRequestDTO request) {
+        Person person = request.toPerson();
+        Person saved = personService.save(person);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new PersonResponseDTO(saved));
     }
 
-    @PutMapping
-    public PersonResponseDTO updatePerson(@RequestBody PersonRequestDTO request) {
-        Person updated = personService.updatePerson(request.getName());
+    @PutMapping("/{id}")
+    public PersonResponseDTO update(@PathVariable Long id, @RequestBody PersonRequestDTO request) {
+        Person person = personService.findByIdOrThrow(id);
+        person.setName(request.getName());
+        person.setEmail(request.getEmail());
+        person.setPassword(request.getPassword());
+        Person updated = personService.save(person);
         return new PersonResponseDTO(updated);
     }
 }

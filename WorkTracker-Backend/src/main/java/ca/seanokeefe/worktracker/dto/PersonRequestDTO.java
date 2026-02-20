@@ -5,9 +5,11 @@ import ca.seanokeefe.worktracker.model.Person;
 public class PersonRequestDTO {
 
     private String name;
+    private String email;
+    private String password;
 
     public Person toPerson() {
-        return new Person(name);
+        return new Person(name, email, password);
     }
 
     public String getName() {
@@ -16,5 +18,21 @@ public class PersonRequestDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -7,6 +7,7 @@ import ca.seanokeefe.worktracker.model.WorkSession;
 
 public class WorkSessionRequestDTO {
 
+    private Long personId;
     private Instant startTime;
     private Instant endTime;
     private String subject;
@@ -19,6 +20,14 @@ public class WorkSessionRequestDTO {
 
     public Instant getStartTime() {
         return startTime;
+    }
+
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 
     public void setStartTime(Instant startTime) {
