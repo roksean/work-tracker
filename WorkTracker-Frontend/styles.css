@@ -1,0 +1,61 @@
+/* Only one screen is visible at a time. */
+.screen {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Form fields stacked vertically */
+label {
+  display: block;
+  margin-top: 0.75rem;
+  font-weight: 600;
+}
+
+input, textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+button {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.timer-buttons button {
+  margin-right: 0.5rem;
+}
+
+.message {
+  margin-top: 0.75rem;
+  color: #c00;
+}
+
+.timer-status {
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.user-bar {
+  margin-bottom: 1.5rem;
+}
+
+#recent-sessions {
+  list-style: none;
+  padding: 0;
+}
+
+#recent-sessions li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.create-account {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ccc;
+}

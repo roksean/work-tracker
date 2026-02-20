@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Login: show when no user in localStorage -->
+  <div id="login-screen" class="screen">
+    <h1>Work Tracker</h1>
+    <p>Enter your email to continue.</p>
+    <div class="login-form">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" placeholder="you@example.com">
+      <button type="button" id="btn-continue">Continue</button>
+    </div>
+    <p id="login-message" class="message"></p>
+    <!-- Shown when email not found: create account -->
+    <div id="create-account" class="create-account" style="display: none;">
+      <p>No account with that email. Create one?</p>
+      <label for="create-name">Name</label>
+      <input type="text" id="create-name" placeholder="Your name">
+      <label for="create-password">Password</label>
+      <input type="password" id="create-password" placeholder="Password">
+      <button type="button" id="btn-create">Create account</button>
+    </div>
+  </div>
+
+  <!-- Timer: show when user is "logged in" (we have them in localStorage) -->
+  <div id="timer-screen" class="screen" style="display: none;">
+    <p class="user-bar">Logged in as <span id="user-name"></span> <button type="button" id="btn-logout">Log out</button></p>
+    <h2>Timer</h2>
+    <div class="timer-form">
+      <label for="session-subject">Subject</label>
+      <input type="text" id="session-subject" placeholder="e.g. Math homework">
+      <label for="session-name">Session name (optional)</label>
+      <input type="text" id="session-name" placeholder="e.g. Chapter 5">
+      <label for="session-description">Description (optional)</label>
+      <textarea id="session-description" rows="2" placeholder="Notes..."></textarea>
+      <div class="timer-buttons">
+        <button type="button" id="btn-start">Start</button>
+        <button type="button" id="btn-stop" disabled>Stop</button>
+      </div>
+    </div>
+    <p id="timer-status" class="timer-status" style="display: none;">Timer running...</p>
+    <h3>Recent sessions</h3>
+    <ul id="recent-sessions"></ul>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
