@@ -21,6 +21,9 @@ import ca.seanokeefe.worktracker.model.WorkSession;
 import ca.seanokeefe.worktracker.service.PersonService;
 import ca.seanokeefe.worktracker.service.WorkSessionService;
 
+/**
+ * REST API for work sessions. All list operations require a personId to filter by user.
+ */
 @RestController
 @RequestMapping("/api/work-sessions")
 public class WorkSessionController {
@@ -33,6 +36,7 @@ public class WorkSessionController {
         this.personService = personService;
     }
 
+    /** Returns work sessions for the given person. Optional subject query param filters by subject. */
     @GetMapping
     public List<WorkSessionResponseDTO> getAll(
             @RequestParam Long personId,
@@ -50,12 +54,14 @@ public class WorkSessionController {
         return result;
     }
 
+    /** Returns one work session by id. Returns 404 if not found. */
     @GetMapping("/{id}")
     public WorkSessionResponseDTO getById(@PathVariable Long id) {
         WorkSession session = workSessionService.findByIdOrThrow(id);
         return new WorkSessionResponseDTO(session);
     }
 
+    /** Creates a new work session. Request body must include personId. Returns 201. Returns 404 if person not found. */
     @PostMapping
     public ResponseEntity<WorkSessionResponseDTO> create(@RequestBody WorkSessionRequestDTO request) {
         Person person = personService.findByIdOrThrow(request.getPersonId());
@@ -64,6 +70,7 @@ public class WorkSessionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new WorkSessionResponseDTO(saved));
     }
 
+    /** Deletes a work session by id. Returns 204 on success. Returns 404 if not found. */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         workSessionService.deleteByIdOrThrow(id);

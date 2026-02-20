@@ -18,6 +18,9 @@ import ca.seanokeefe.worktracker.dto.PersonResponseDTO;
 import ca.seanokeefe.worktracker.model.Person;
 import ca.seanokeefe.worktracker.service.PersonService;
 
+/**
+ * REST API for people (users). Supports list, get by id, create, and update.
+ */
 @RestController
 @RequestMapping("/api/people")
 public class PersonController {
@@ -28,6 +31,7 @@ public class PersonController {
         this.personService = personService;
     }
 
+    /** Returns all people. */
     @GetMapping
     public List<PersonResponseDTO> getAll() {
         List<Person> people = personService.findAll();
@@ -38,12 +42,14 @@ public class PersonController {
         return result;
     }
 
+    /** Returns one person by id. Returns 404 if not found. */
     @GetMapping("/{id}")
     public PersonResponseDTO getById(@PathVariable Long id) {
         Person person = personService.findByIdOrThrow(id);
         return new PersonResponseDTO(person);
     }
 
+    /** Creates a new person. Returns 201 with the created person (including id). */
     @PostMapping
     public ResponseEntity<PersonResponseDTO> create(@RequestBody PersonRequestDTO request) {
         Person person = request.toPerson();
@@ -51,6 +57,7 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new PersonResponseDTO(saved));
     }
 
+    /** Updates an existing person by id. Returns 404 if not found. */
     @PutMapping("/{id}")
     public PersonResponseDTO update(@PathVariable Long id, @RequestBody PersonRequestDTO request) {
         Person person = personService.findByIdOrThrow(id);
